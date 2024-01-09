@@ -1,23 +1,47 @@
 #include <iostream>
 #include <list>
+#include <vector>
+
+struct Board {
+    int rows{};
+    int cols{};
+    std::string name;
+    std::vector<std::string> data;
+};
+
+Board readBoard() {
+    Board board;
+    std::cin >> board.rows >> board.cols >> board.name;
+
+    board.data.resize(board.rows);
+    for (int i = 0; i < board.rows; ++i) {
+        std::cin >> board.data[i];
+    }
+
+    return board;
+}
 
 int main() {
-    std::cout << "Podaj input:" << std::endl;
+    std::vector<Board> boards;
 
-    std::list<std::string> lines;
-    std::string line;
-//    while(true) {
-        getline(std::cin, line);
-        lines.push_back(line);
-        std::cout << line.size() << std::endl;
-//    }
+    while (true) {
+        Board board = readBoard();
 
-//    lines.emplace_back("10");
-//    lines.emplace_back("20");
-    std::cout << "lines =" << std::endl;
-    for (const auto& c : lines)
-        std::cout << " " << c;
+        if (board.rows == 0 && board.cols == 0) {
+            break;
+        }
+
+        boards.push_back(board);
+    }
+
     std::cout << std::endl;
+    for (const Board& board : boards) {
+        std::cout << board.name << " (" << board.rows << " x " << board.cols << ") " << std::endl;
+
+        for(const std::string& row: board.data) {
+            std::cout << row << std::endl;
+        }
+    }
 
     return 0;
 }
